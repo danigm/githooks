@@ -1,0 +1,18 @@
+#!/bin/sh
+#
+# That hook add the diff message inside the commit message but
+# commented. Set it as prepare-commit-msg in .git/hooks
+#
+# It's recommended to view the diff before you commint to
+# no forget anything or introduce unwanted changes.
+
+case "$2,$3" in
+ ,|template,)
+    echo "#" >> "$1"
+    echo "#####################################" >> "$1"
+    echo "#               DIFF                #" >> "$1"
+    echo "#####################################" >> "$1"
+    echo "#" >> "$1"
+    git diff --cached | sed 's/^/# /g' >> "$1" ;;
+  *) ;;
+esac
