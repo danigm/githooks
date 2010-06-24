@@ -11,4 +11,12 @@ USER=pepe
 PASSWD=123
 
 MSG=$PREFIX$(git log -n 1 --oneline)$POSTFIX
-curl -u $USER:$PASSWD -d status="$MSG" $URL > /dev/null 2> /dev/null
+echo "---"
+echo $MSG
+echo "---"
+echo "twit that? y/n"
+read confirm
+if [ $confirm = "y" ]
+then
+    curl -u $USER:$PASSWD -d status="$MSG" $URL > /dev/null 2> /dev/null
+fi
