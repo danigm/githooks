@@ -17,7 +17,13 @@ def main():
 
     rrcode = 0
     for file in set(modifieds):
-        retcode = subprocess.call(['pep8', file])
+        p = subprocess.Popen(['pep8', file],
+                             stdout=subprocess.PIPE,
+                             stderr=subprocess.PIPE)
+        out, err = p.communicate()
+        if out or err:
+            sys.stdout.write("pep8:\n%s\n%s" % (out, err))
+            rrcode = rrcode | 1
         retcode = subprocess.call(['pyflakes', file])
         rrcode = retcode | rrcode
 
