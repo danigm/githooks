@@ -11,7 +11,11 @@ def main():
     p = subprocess.Popen(['git', 'status', '--porcelain'],
                          stdout=subprocess.PIPE)
     out, err = p.communicate()
-    modifieds = modified.findall(out)
+    modifieds = []
+    for line in out.splitlines():
+        match = modified.match(line)
+        if (match):
+            modifieds.append(match.group('name'))
 
     rrcode = 0
     for file in modifieds:
